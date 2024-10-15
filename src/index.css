@@ -1,26 +1,5 @@
 /*implementing new fonts*/
 @font-face {
-    font-family: 'Forum-Regular';
-    src: url(../fonts/Forum-Regular.ttf);
-}
-
-@font-face {
-    font-family: "Lato-Bold";
-    src: url(../fonts/Lato-Bold.ttf);
-}
-
-@font-face {
     font-family: "Lato-Regular";
     src: url(../fonts/Lato-Regular.ttf);
-}
-
-:root {
-    color: white;
-    font-size: 18px;
-    text-align: center;
-    font-family: 'Lato-Regular';
-    background-color: #45304c;
-    width: 100vw;
-    height: 100vh;
-    margin: 0;
 }

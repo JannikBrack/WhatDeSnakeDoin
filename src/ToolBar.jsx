@@ -6,11 +6,6 @@ export default function ToolBar() {
         <>
             <AppBar
                 position="fixed"
-                color="primary"
-                sx={{
-                    backgroundColor: "#61446b",
-
-                }}
             >
                 <Toolbar>
                     <h1>Dies ist ein Test</h1>
