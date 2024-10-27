@@ -1,0 +1,17 @@
+{
+    "snakes": [
+        {
+            "snake-name": "Schnütchen",
+            "snake-type": "Heterodon Nasicus",
+            "snake-id": "schnüt_1",
+            "last-feedings": [
+                "23.03.2024",
+                "25.03.2024"
+            ],
+            "accepted": [
+                false,
+                true
+            ]
+        }
+    ]
+}
