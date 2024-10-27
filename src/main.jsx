@@ -18,10 +18,16 @@ const theme = createTheme({
       paper: '#72507d',
     },
     divider: 'rgba(113,112,112,0.12)',
+    text: {
+      primary: '#fff',
+      secondary: '#fff'
+    }
   },
   typography: {
     fontFamily: 'Lato-Regular',
-  }
+    fontSize: 20,
+
+  },
 });
 
 
