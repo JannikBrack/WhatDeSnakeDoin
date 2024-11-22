@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import './App.css';
-import ToolBar from './ToolBar';
+import ToolBar from './ToolBar.jsx';
 function App() {
 
   return (
