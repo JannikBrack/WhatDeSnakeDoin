@@ -1,13 +1,25 @@
-import { useState } from 'react';
 import './App.css';
-import ToolBar from './ToolBar';
+import ToolBar from './ToolBar.tsx';
+import { Box } from '@mui/material';
+
 function App() {
 
-  return (
-    <>
-      <ToolBar />
-    </>
-  )
+    return (
+        <Box
+            sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                height: '100vh',
+                backgroundColor: '#45304c',
+                color: 'white',
+            }}
+        >
+            {/* Toolbar */}
+            <Box>
+                <ToolBar/>
+            </Box>
+        </Box>
+    );
 }
 
-export default App
+export default App;
