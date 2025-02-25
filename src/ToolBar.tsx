@@ -22,10 +22,22 @@ export default function ToolBar() {
                         </Box>
                     )}
                     <ButtonGroup>
-                        {buttonNames.map((name) => (<Button key={name} color="secondary" variant="contained" sx={{marginRight: "5px"}}>{name}</Button>))}
+                        {buttonNames.map((name) => (
+                            <Button
+                                key={name}
+                                color="secondary"
+                                variant="contained"
+                                size='large'
+                                sx={{
+                                    marginRight: "5px",
+                                    fontSize: '20px',
+                                }}
+                            >
+                                {name}
+                            </Button>
+                        ))}
                     </ButtonGroup>
                 </Box>
-
 
                 <Box display="flex" justifyContent="center" alignItems="center">
                     <Avatar sx={{marginRight: "10px"}}>{userInitials}</Avatar>

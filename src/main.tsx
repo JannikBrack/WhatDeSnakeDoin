@@ -1,6 +1,6 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import App from './App.jsx'
+import App from './App.tsx'
 import './index.css'
 import { ThemeProvider, CssBaseline } from '@mui/material';
 import { createTheme } from '@mui/material/styles';
@@ -21,13 +21,21 @@ const theme = createTheme({
     text: {
       primary: '#fff',
       secondary: '#fff'
-    }
+    },
   },
-  typography: {
-    fontFamily: 'Lato-Regular',
-    fontSize: 20,
+  components: {
+    MuiTypography: {
+      fontFamily: '"Whatdesnakedoin", sans-serif',
+    },
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          fontFamily: '"Whatdesnakedoin", sans-serif',
+        },
+      },
+    },
 
-  },
+  }
 });
 
 
