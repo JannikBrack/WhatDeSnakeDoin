@@ -1,7 +1,8 @@
 import './App.css';
-import {Box} from '@mui/material';
+import {Box, Typography} from '@mui/material';
 import ToolBar from "./ToolBar";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
+import appUrl from "./lib/appUrl";
 
 function App() {
 
@@ -24,9 +25,39 @@ function App() {
                             <Box>
                                 <ToolBar/>
                             </Box>
-                            <Box>
-                                {/*MainMenu*/}
+
+                            {/*MainMenu*/}
+                            <Box
+                                sx={{
+                                    marginTop: '50px',
+                                    overflow: 'hidden',
+                                    position: 'relative',
+                                    display: 'flex',
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                }}
+                            >
+                                <img
+                                    style={{
+                                        objectFit: 'contain',
+                                        width: '100%',
+                                        height: '100%',
+                                    }}
+                                    src={`${appUrl}images/MainMenu.png`}
+                                    alt="background"
+                                />
+                                <Typography
+                                    variant="h4"
+                                    sx={{
+                                        position: 'absolute',
+                                        transform: 'translateY(130px)',
+                                        padding: '8px 16px',
+                                    }}
+                                >
+                                    WhatDeSnakeDoin?
+                                </Typography>
                             </Box>
+
                         </Box>
                     </>
                 }/>
