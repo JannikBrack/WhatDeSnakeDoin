@@ -38,7 +38,13 @@ const theme = createTheme({
         },
       },
     },
-
+    MuiMenuItem: {
+      styleOverrides: {
+        root: {
+          fontFamily: '"Whatdesnakedoin", sans-serif',
+        }
+      }
+    }
   }
 });
 
