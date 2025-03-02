@@ -1,6 +1,6 @@
 import './App.css';
 import {Box, Typography} from '@mui/material';
-import ToolBar from "./ToolBar";
+import ToolBar from "./components/ToolBar";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import appUrl from "./lib/appUrl";
 
@@ -29,29 +29,28 @@ function App() {
                             {/*MainMenu*/}
                             <Box
                                 sx={{
-                                    marginTop: '50px',
+                                    mt: 6,
                                     overflow: 'hidden',
                                     position: 'relative',
                                     display: 'flex',
                                     justifyContent: 'center',
                                     alignItems: 'center',
+                                    backgroundImage: `url(${appUrl}images/MainMenu.png)`,
+                                    backgroundSize: 'cover',
+                                    backgroundPosition: 'center',
+                                    width: '100%',
+                                    height: '100%',
                                 }}
                             >
-                                <img
-                                    style={{
-                                        objectFit: 'contain',
-                                        width: '100%',
-                                        height: '100%',
-                                    }}
-                                    src={`${appUrl}images/MainMenu.png`}
-                                    alt="background"
-                                />
                                 <Typography
                                     variant="h4"
                                     sx={{
                                         position: 'absolute',
-                                        transform: 'translateY(130px)',
-                                        padding: '8px 16px',
+                                        top: 600,
+                                        p: 2,
+                                        textAlign: 'center',
+                                        color: 'white',
+                                        borderRadius: 2,
                                     }}
                                 >
                                     WhatDeSnakeDoin?
