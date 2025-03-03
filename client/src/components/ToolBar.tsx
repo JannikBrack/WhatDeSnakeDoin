@@ -1,8 +1,12 @@
 import { AppBar, Box, Button, ButtonGroup, IconButton, MenuItem, Toolbar, Menu } from '@mui/material';
 import SettingsIcon from '@mui/icons-material/Settings';
-import { useState } from "react";
+import {Dispatch, SetStateAction, useState} from "react";
 
-export default function ToolBar() {
+interface ToolBarProps {
+    setOpenTab: Dispatch<SetStateAction<string>>
+}
+
+export default function ToolBar(props: ToolBarProps) {
     const [mainMenuOpen, setMainMenuOpen] = useState(true);
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
@@ -10,11 +14,15 @@ export default function ToolBar() {
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
         setAnchorEl(event.currentTarget);
     };
-    const handleClose = () => {
+    const handleClose = (event) => {
+        props.setOpenTab(event.target.id);
         setAnchorEl(null);
     };
+    const handleButtonClick = (event) => {
+        props.setOpenTab(event.target.id);
+    }
 
-    const buttonNames = ["snake", "nutritionplan", "website_1", "website_2", "website_3", "website_4", "website_5"];
+    const buttonNames = ["snake", "nutrition-plan", "website-1", "website-2", "website-3", "website-4", "website-5"];
 
     return (
         <AppBar position="fixed" color="primary">
@@ -29,13 +37,15 @@ export default function ToolBar() {
                         <ButtonGroup>
                             {buttonNames.map((name) => (
                                 <Button
+                                    id={name}
                                     key={name}
                                     color="secondary"
                                     variant="contained"
                                     size='large'
                                     sx={{ mr: 1, fontSize: '20px' }}
+                                    onClick={handleButtonClick}
                                 >
-                                    {name}
+                                    {name.replace("-", " ")}
                                 </Button>
                             ))}
                         </ButtonGroup>
@@ -47,9 +57,6 @@ export default function ToolBar() {
                         <SettingsIcon sx={{ fontSize: 30 }} />
                     </IconButton>
                     <Menu
-                        sx={{
-                            marginTop: '16px'
-                        }}
                         id="basic-menu"
                         anchorEl={anchorEl}
                         open={open}
@@ -57,20 +64,22 @@ export default function ToolBar() {
                         MenuListProps={{ 'aria-labelledby': 'basic-button' }}
                     >
                         <MenuItem
+                            id='settings'
                             sx={{
                                 fontSize: '20px',
                             }}
                             onClick={handleClose}
                         >
-                            Settings
+                            SETTINGS
                         </MenuItem>
                         <MenuItem
+                            id='login'
                             sx={{
                                 fontSize: '20px',
                             }}
                             onClick={handleClose}
                         >
-                            Login
+                            LOGIN
                         </MenuItem>
                     </Menu>
                 </Box>
