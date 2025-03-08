@@ -16,4 +16,4 @@ class Feeding(models.Model):
 
 class FoodType(models.Model):
     name = models.CharField(max_length=100)
-    amount = models.FloatField()
+    amount = models.CharField(max_length=100)
