@@ -6,3 +6,4 @@ django-cors-headers>=4.6.0
 debugpy
 python-ldap
 django_auth_ldap
+Pillow
