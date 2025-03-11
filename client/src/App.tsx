@@ -61,7 +61,18 @@ function App() {
                         >
                             WhatDeSnakeDoin?
                         </Typography>
-                    </Box>}
+                    </Box>
+                }
+                {
+                    openSnake && <Box
+                        sx={{
+                            ...mainBoxConfig,
+                            backgroundImage: `url(${appUrl}images/Background.png)`,
+                        }}
+                    >
+                        <Typography>Test</Typography>
+                    </Box>
+                }
             </Box>
         </>
     );
