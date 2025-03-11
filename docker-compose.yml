@@ -2,7 +2,8 @@ services:
   db:
     restart: always
     volumes:
-      - ./volumes/db/data:/var/lib/postgresql/data:rw
+      - /volumes/db/data:/var/lib/postgresql/data:rw
+    privileged: true
     environment:
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASS}
@@ -37,6 +38,7 @@ services:
       - "3001:3001"
   client:
     restart: always
+    network_mode: host
     build: ./client
     ports:
       - "3002:80"

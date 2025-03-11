@@ -1,30 +1,33 @@
-FROM node:18 as build
+# Build Stage
+FROM node:alpine AS build
 
-# Set working directory
+# Set the working directory
 WORKDIR /app
 
-# Copy package.json and yarn.lock first for caching dependencies
-COPY package.json yarn.lock ./
-
 # Install dependencies
+COPY package.json yarn.lock ./
 RUN yarn install --frozen-lockfile
 
-# Copy the rest of the project files
+# Copy the rest of the project
 COPY . .
 
-# Build the project with Vite
+# Build the project
 RUN yarn build
 
-# Use a lightweight web server for serving static files
+# Nginx Stage
 FROM nginx:alpine
 
-# Copy built files to Nginx's HTML directory
+# Copy SSL certificates
+COPY ssl /etc/nginx/ssl/
+
+# Copy Nginx configuration file
+COPY nginx.conf /etc/nginx/nginx.conf
+
+# Copy the built files from the build stage
 COPY --from=build /app/dist /usr/share/nginx/html
 
-# Expose ports (80 for HTTP, 443 for HTTPS as in your docker-compose.yml)
+# Expose ports
 EXPOSE 80 443
 
 # Start Nginx
 CMD ["nginx", "-g", "daemon off;"]
-
-
