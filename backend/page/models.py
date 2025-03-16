@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.db import models
 
 # Create your models here.
@@ -7,6 +8,7 @@ class Snake(models.Model):
     gender = models.CharField(max_length=10)
     venomous = models.BooleanField(default=False)
     image = models.ImageField(upload_to='images/')
+    owner = models.ForeignKey(User, on_delete=models.CASCADE)
 
 class Feeding(models.Model):
     snake_id = models.ForeignKey(Snake, on_delete=models.CASCADE)
