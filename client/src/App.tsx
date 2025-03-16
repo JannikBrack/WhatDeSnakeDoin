@@ -1,15 +1,12 @@
+import React from 'react';
 import './App.css';
 import {Box, Typography} from '@mui/material';
 import ToolBar from "./components/ToolBar";
 import appUrl from "./lib/appUrl";
-import {useState} from "react";
+import SnakeViewerComponent from "./components/SnakeViewerComponent";
+import {BrowserRouter, Route, Routes} from "react-router-dom";
 
 function App() {
-    const [openTab, setOpenTab] = useState<string>('main-menu');
-
-    const openMainMenu = openTab === 'main-menu';
-    const openSnake = openTab === 'snake';
-    const openNutritionplant = openTab === 'nutrition-plan';
 
     const mainBoxConfig = {
         mt: 6,
@@ -35,44 +32,46 @@ function App() {
                     color: 'white',
                 }}
             >
-                {/* Toolbar */}
-                <Box>
-                    <ToolBar setOpenTab={setOpenTab}/>
-                </Box>
+                <ToolBar/>
+                    <Routes>
+                        <Route path="/" element={
+                            <>
+                                {/*MainMenu*/}
+                                <Box
+                                    sx={{
+                                        ...mainBoxConfig,
+                                        backgroundImage: `url(${appUrl}images/MainMenu.png)`,
+                                    }}
+                                >
+                                    <Typography
+                                        variant="h4"
+                                        sx={{
+                                            position: 'absolute',
+                                            top: 600,
+                                            p: 2,
+                                            textAlign: 'center',
+                                            color: 'white',
+                                            borderRadius: 2,
+                                        }}
+                                    >
+                                        WhatDeSnakeDoin?
+                                    </Typography>
+                                </Box>
+                            </>
+                        }/>
 
-                {
-                    /*MainMenu*/
-                    openMainMenu && <Box
-                        sx={{
-                            ...mainBoxConfig,
-                            backgroundImage: `url(${appUrl}images/MainMenu.png)`,
-                        }}
-                    >
-                        <Typography
-                            variant="h4"
-                            sx={{
-                                position: 'absolute',
-                                top: 600,
-                                p: 2,
-                                textAlign: 'center',
-                                color: 'white',
-                                borderRadius: 2,
-                            }}
-                        >
-                            WhatDeSnakeDoin?
-                        </Typography>
-                    </Box>
-                }
-                {
-                    openSnake && <Box
-                        sx={{
-                            ...mainBoxConfig,
-                            backgroundImage: `url(${appUrl}images/Background.png)`,
-                        }}
-                    >
-                        <Typography>Test</Typography>
-                    </Box>
-                }
+                        {/*SnakeSide*/}
+                        <Route path="/snake" element={
+                            <Box
+                                sx={{
+                                    ...mainBoxConfig,
+                                    backgroundImage: `url(${appUrl}images/Background.png)`,
+                                }}
+                            >
+                                <SnakeViewerComponent/>
+                            </Box>
+                        }/>
+                    </Routes>
             </Box>
         </>
     );

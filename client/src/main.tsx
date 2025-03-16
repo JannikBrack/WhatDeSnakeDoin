@@ -1,60 +1,62 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
+import React, {StrictMode} from 'react'
+import {createRoot} from 'react-dom/client'
 import App from './App'
 import './index.css'
-import { ThemeProvider, CssBaseline } from '@mui/material';
-import { createTheme } from '@mui/material/styles';
+import {CssBaseline, ThemeProvider} from '@mui/material';
+import {createTheme} from '@mui/material/styles';
+import {BrowserRouter} from "react-router-dom";
 
 const theme = createTheme({
-  palette: {
-    primary: {
-      main: '#61446b',
-    },
-    secondary: {
-      main: '#6f4e7b',
-    },
-    background: {
-      default: '#45304c',
-      paper: '#72507d',
-    },
-    divider: 'rgba(113,112,112,0.12)',
-    text: {
-      primary: '#fff',
-      secondary: '#fff'
-    },
-  },
-  components: {
-    MuiTypography: {
-      styleOverrides: {
-        root: {
-          fontFamily: '"Whatdesnakedoin", sans-serif',
+    palette: {
+        primary: {
+            main: '#61446b',
         },
-      },
-    },
-    MuiButton: {
-      styleOverrides: {
-        root: {
-          fontFamily: '"Whatdesnakedoin", sans-serif',
+        secondary: {
+            main: '#6f4e7b',
         },
-      },
+        background: {
+            default: '#45304c',
+            paper: 'rgba(114,80,125,0.6)',
+        },
+        divider: 'rgba(113,112,112,0.12)',
+        text: {
+            primary: '#fff',
+            secondary: '#fff'
+        },
     },
-    MuiMenuItem: {
-      styleOverrides: {
-        root: {
-          fontFamily: '"Whatdesnakedoin", sans-serif',
+    components: {
+        MuiTypography: {
+            styleOverrides: {
+                root: {
+                    fontFamily: '"Whatdesnakedoin", sans-serif',
+                },
+            },
+        },
+        MuiButton: {
+            styleOverrides: {
+                root: {
+                    fontFamily: '"Whatdesnakedoin", sans-serif',
+                },
+            },
+        },
+        MuiMenuItem: {
+            styleOverrides: {
+                root: {
+                    fontFamily: '"Whatdesnakedoin", sans-serif',
+                }
+            }
         }
-      }
     }
-  }
 });
 
 
-
-createRoot(document.getElementById('root')).render(
-  <StrictMode>
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <App />
-    </ThemeProvider>
-  </StrictMode>,
+createRoot(document.getElementById('root') as HTMLElement).render(
+    <StrictMode>
+        <ThemeProvider theme={theme}>
+            <CssBaseline/>
+            <BrowserRouter>
+                <App/>
+            </BrowserRouter>
+        </ThemeProvider>
+    </StrictMode>,
 )
