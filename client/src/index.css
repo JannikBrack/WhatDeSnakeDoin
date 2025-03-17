@@ -1,1 +1,21 @@
+/* Width of the scrollbar */
+::-webkit-scrollbar {
+    width: 8px;  /* For vertical scrollbar */
+    height: 8px; /* For horizontal scrollbar */
+}
 
+/* Track (background of the scrollbar) */
+::-webkit-scrollbar-track {
+    background: #45304c; /* Your background color */
+}
+
+/* Handle (the draggable part of the scrollbar) */
+::-webkit-scrollbar-thumb {
+    background: #6f4e7b; /* Your scrollbar color */
+    border-radius: 4px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #6f4e7b; /* Lighter shade when hovered */
+}
