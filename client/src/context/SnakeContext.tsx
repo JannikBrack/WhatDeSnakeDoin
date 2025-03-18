@@ -2,6 +2,16 @@ import React, {createContext, ReactNode, useContext} from "react";
 import {useQuery} from "@tanstack/react-query";
 import serverUrl from "../lib/serverUrl";
 
+export interface Snake{
+    id:number;
+    name:string;
+    species:string;
+    gender:string;
+    venomous:boolean;
+    image:string;
+    feeding: any;
+}
+
 export interface SnakeContextType {
     createSnake: (snake: Snake) => void;
     deleteSnake: (snakeID: number) => void;
@@ -31,15 +41,21 @@ export const SnakeContextProvider: React.FC<SnakeContextProviderProps> = ({child
     const query = useQuery({
         queryKey: ["getSnake"],
         queryFn: async () => {
-            const data = await fetch(`${serverUrl}/api/snakes`, {
+            const response = await fetch(`${serverUrl}api/get_snake`, {
                 method: "GET",
-                headers: {"Content-Type": "application/json"},
-            })
-            return await data.json();
+                headers: { "Content-Type": "application/json" },
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                return await data;
+            } else {
+                return [];
+            }
         }
     });
 
-    const snake = !query.isLoading ? query.data : [] as Snake[];
+    const snake: Snake[] = (query.data as Snake[]) || [];
 
     return (
         <SnakeContext.Provider value={{createSnake, deleteSnake, feedSnake, snake}}>
