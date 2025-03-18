@@ -5,33 +5,17 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import popupCenter from "../ts/popupCenter";
 import appUrl from "../lib/appUrl";
 
-interface Snake {
-    id: string;
-    name: string;
-    species: string;
-    gender: string;
-    venomous: boolean;
-    owner: string;
-    image?: string;
-}
-
 export default function SnakeViewerComponent() {
     const [snakeList, setSnakeList] = useState<Snake[]>([]);
 
     const addSnake = () => {
-        setSnakeList([...snakeList, {
-            id: "id" + Math.random().toString(16).slice(2),
-            name: "Snake",
-            species: "Snake",
-            gender: "Female",
-            venomous: false,
-            owner: "you",
-        }]);
+
     }
-    const deleteSnake = (key: string) => {
+    const deleteSnake = (id: number) => {
         const newSnakeList = snakeList.filter(snake => {
-            return snake.id !== key;
+            return snake.id !== id;
         })
+        //deleteSnake in backend and refetch
         setSnakeList(newSnakeList);
     }
 
@@ -39,7 +23,7 @@ export default function SnakeViewerComponent() {
         addSnake();
     };
 
-    const handleDeleteSnake = (key: string) => {
+    const handleDeleteSnake = (id: string) => {
         const popup = popupCenter(`${appUrl}deletesnake`, `Do you really want to delete?`, window, 400, 200);
 
         if (popup) {
@@ -48,9 +32,8 @@ export default function SnakeViewerComponent() {
 
         const checkStorage = (event: StorageEvent) => {
             if (event.key === "deleteSnakeResult" && event.newValue === "yes") {
-                deleteSnake(key);
-                localStorage.removeItem("deleteSnakeResult"); // Cleanup after reading
-                window.removeEventListener("storage", checkStorage); // Remove listener
+                localStorage.removeItem("deleteSnakeResult");
+                window.removeEventListener("storage", checkStorage);
             }
         };
 
@@ -102,7 +85,7 @@ export default function SnakeViewerComponent() {
                             }}
                         >
                             <Button
-                                onClick={() => handleDeleteSnake(snake.id)}
+                                onClick={() => handleDeleteSnake(snake.id.toString())}
                                 sx={{
                                     position: 'absolute',
                                     top: '10px',
