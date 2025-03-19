@@ -1,7 +1,6 @@
 import React, {useState} from "react";
 import {Box, Button, Paper, TextField, Typography} from "@mui/material";
-import {LoginContextType, useLoginContext, UserData} from "../context/LoginContext";
-import appUrl from "../lib/appUrl";
+import {LoginContextType, useLoginContext} from "../context/LoginContext";
 import {useNavigate} from "react-router-dom";
 
 export default function LoginWindowComponent() {
@@ -31,62 +30,64 @@ export default function LoginWindowComponent() {
             </Typography>
 
             <Box sx={{width: "100%", display: "flex", flexDirection: "column", gap: 2}}>
-                <TextField
-                    label="Username"
-                    variant="outlined"
-                    fullWidth
-                    sx={{
-                        '& .MuiOutlinedInput-root': {
-                            '& fieldset': {
-                                borderColor: '#61446b',
+                <form>
+                    <TextField
+                        label="Username"
+                        variant="outlined"
+                        fullWidth
+                        sx={{
+                            '& .MuiOutlinedInput-root': {
+                                '& fieldset': {
+                                    borderColor: '#61446b',
+                                },
+                                '&:hover fieldset': {
+                                    borderColor: '#61446b',
+                                },
+                                '&.Mui-focused fieldset': {
+                                    borderColor: '#61446b',
+                                },
                             },
-                            '&:hover fieldset': {
-                                borderColor: '#61446b',
+                            '& .MuiInputLabel-root': {
+                                color: '#61446b',
                             },
-                            '&.Mui-focused fieldset': {
-                                borderColor: '#61446b',
-                            },
-                        },
-                        '& .MuiInputLabel-root': {
-                            color: '#61446b',
-                        },
 
-                        input: {
-                            color: '#61446b',
-                        }
-                    }}
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                />
+                            input: {
+                                color: '#61446b',
+                            }
+                        }}
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                    />
 
-                <TextField
-                    label="Password"
-                    variant="outlined"
-                    type="password"
-                    fullWidth
-                    sx={{
-                        '& .MuiOutlinedInput-root': {
-                            '& fieldset': {
-                                borderColor: '#61446b',
+                    <TextField
+                        label="Password"
+                        variant="outlined"
+                        type="password"
+                        fullWidth
+                        sx={{
+                            '& .MuiOutlinedInput-root': {
+                                '& fieldset': {
+                                    borderColor: '#61446b',
+                                },
+                                '&:hover fieldset': {
+                                    borderColor: '#61446b',
+                                },
+                                '&.Mui-focused fieldset': {
+                                    borderColor: '#61446b',
+                                },
                             },
-                            '&:hover fieldset': {
-                                borderColor: '#61446b',
+                            '& .MuiInputLabel-root': {
+                                color: '#61446b',
                             },
-                            '&.Mui-focused fieldset': {
-                                borderColor: '#61446b',
-                            },
-                        },
-                        '& .MuiInputLabel-root': {
-                            color: '#61446b',
-                        },
 
-                        input: {
-                            color: '#61446b',
-                        }
-                    }}
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                />
+                            input: {
+                                color: '#61446b',
+                            }
+                        }}
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                    />
+                </form>
 
                 <Button
                     variant="contained"
