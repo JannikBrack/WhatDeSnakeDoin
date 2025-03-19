@@ -5,6 +5,9 @@ import './index.css'
 import {CssBaseline, ThemeProvider} from '@mui/material';
 import {createTheme} from '@mui/material/styles';
 import {BrowserRouter} from "react-router-dom";
+import SnakeContextProvider from "./context/SnakeContext";
+import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
+import LoginContextProvider from "./context/LoginContext";
 
 const theme = createTheme({
     palette: {
@@ -49,14 +52,21 @@ const theme = createTheme({
     }
 });
 
+const queryClient = new QueryClient();
 
 createRoot(document.getElementById('root') as HTMLElement).render(
     <StrictMode>
         <ThemeProvider theme={theme}>
-            <CssBaseline/>
-            <BrowserRouter>
-                <App/>
-            </BrowserRouter>
+            <QueryClientProvider client={queryClient}>
+                <CssBaseline/>
+                <BrowserRouter>
+                    <SnakeContextProvider>
+                        <LoginContextProvider>
+                            <App/>
+                        </LoginContextProvider>
+                    </SnakeContextProvider>
+                </BrowserRouter>
+            </QueryClientProvider>
         </ThemeProvider>
     </StrictMode>,
 )
