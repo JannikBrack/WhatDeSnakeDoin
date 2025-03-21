@@ -1,9 +1,10 @@
 import serverUrl from "../lib/serverUrl";
 import React, {createContext, ReactNode, useContext, useEffect, useState} from "react";
-import appUrl from "../lib/appUrl";
 import {useNavigate} from "react-router-dom";
+import {useQueryClient} from "@tanstack/react-query";
 
 export interface UserData {
+    id: number;
     username: string;
 }
 
@@ -41,11 +42,17 @@ export const LoginContextProvider: React.FC<LoginContextProviderProps> = ({child
 
             if (!response.ok) {
                 console.error("Wrong username or password!");
+                triggerAlert.postMessage({
+                    message: `Login failed: Wrong username or password!`,
+                    severity: "error",
+                    destination: "MainWindow",
+                });
                 return false;
             }
 
             const json = await response.json();
             const userData: UserData = json.user;
+            setLoggedInUser(userData);
 
             triggerAlert.postMessage({
                 message: "Login was successful!",

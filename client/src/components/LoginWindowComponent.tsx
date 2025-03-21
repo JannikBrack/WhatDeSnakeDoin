@@ -29,8 +29,8 @@ export default function LoginWindowComponent() {
                 Login
             </Typography>
 
-            <Box sx={{width: "100%", display: "flex", flexDirection: "column", gap: 2}}>
-                <form>
+            <Box >
+                <form style={{width: "100%", display: "flex", flexDirection: "column", gap: 10}}>
                     <TextField
                         label="Username"
                         variant="outlined"
@@ -64,6 +64,9 @@ export default function LoginWindowComponent() {
                         variant="outlined"
                         type="password"
                         fullWidth
+                        autoComplete="off"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
                         sx={{
                             '& .MuiOutlinedInput-root': {
                                 '& fieldset': {
@@ -84,8 +87,6 @@ export default function LoginWindowComponent() {
                                 color: '#61446b',
                             }
                         }}
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
                     />
                 </form>
 
