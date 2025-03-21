@@ -1,5 +1,4 @@
 import json
-
 from django.contrib.auth import authenticate
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -31,7 +30,7 @@ def authentication(request):
             user = authenticate(request, username=username, password=password)
 
             if user is not None:
-                user_data = UserSerializer(user).data  # Serialisieren
+                user_data = UserSerializer(user).data
                 return Response({"message": "Authentifizierung erfolgreich", "user": user_data}, status=200)
             else:
                 return Response({"message": "Ungültige Anmeldedaten"}, status=401)
@@ -40,9 +39,16 @@ def authentication(request):
 
 
 
-@api_view(['GET', 'DELETE'])
-def get_snakes(request):
+@api_view(['GET'])
+def snakes(request):
     if request.method == 'GET':
-        data = Snake.objects.all()
-        serializer = SnakeSerializer(data, many=True)
-        return Response(serializer.data, status=200)
+        try:
+            user_id = request.query_params.get('user_id', None)
+            print(user_id)
+            data = Snake.objects.filter(owner=user_id)
+            print(data)
+            serializer = SnakeSerializer(data, many=True)
+            print(serializer.data)
+            return Response(serializer.data, status=200)
+        except ValueError:
+            return Response({"message": "Invalid user_id or user not found!"}, status=400)
