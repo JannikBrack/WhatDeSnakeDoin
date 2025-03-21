@@ -58,13 +58,13 @@ createRoot(document.getElementById('root') as HTMLElement).render(
     <StrictMode>
         <ThemeProvider theme={theme}>
             <QueryClientProvider client={queryClient}>
-                <CssBaseline/>
                 <BrowserRouter>
-                    <SnakeContextProvider>
-                        <LoginContextProvider>
+                    <LoginContextProvider>
+                        <CssBaseline/>
+                        <SnakeContextProvider>
                             <App/>
-                        </LoginContextProvider>
-                    </SnakeContextProvider>
+                        </SnakeContextProvider>
+                    </LoginContextProvider>
                 </BrowserRouter>
             </QueryClientProvider>
         </ThemeProvider>
