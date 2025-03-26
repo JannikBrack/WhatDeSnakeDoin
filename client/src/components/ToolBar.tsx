@@ -1,12 +1,17 @@
 import {AppBar, Box, Button, ButtonGroup, IconButton, Menu, MenuItem, Toolbar} from '@mui/material';
 import SettingsIcon from '@mui/icons-material/Settings';
 import React, {MouseEvent, useState} from "react";
-import appUrl from "../lib/appUrl";
-import {Link} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
+import {useQueryClient} from "@tanstack/react-query";
+import loginContext, {useLoginContext} from "../context/LoginContext";
 
 const ToolBar = () => {
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+    const queryClient = useQueryClient();
     const open = Boolean(anchorEl);
+    const navigate = useNavigate();
+
+    const logoutContext = useLoginContext();
 
     // Open Menu
     const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
@@ -15,9 +20,18 @@ const ToolBar = () => {
 
     // Open URL and close Menu
     const handleClose = (event: any) => {
-        window.open(appUrl + (event.target as HTMLButtonElement).id, '_self');
-        setAnchorEl(null);
+        if (event.target.id === "logout") {
+            logoutContext.logout();
+        } else {
+            navigate(`/${event.target.id}`);
+            setAnchorEl(null);
+        }
     };
+
+    const handleSelectPage = (event: any) => {
+        navigate(`/${event.target.id}`);
+        queryClient.invalidateQueries({queryKey: ["getSnake"]});
+    }
 
     const buttonNames = ["snake", "nutrition-plan", "website-1", "website-2", "website-3", "website-4", "website-5"];
 
@@ -31,18 +45,17 @@ const ToolBar = () => {
                     <Box sx={{overflowX: 'auto', display: 'flex'}}>
                         <ButtonGroup>
                             {buttonNames.map((name) => (
-                                <Link to={`/${name}`} key={name}>
-                                    <Button
-                                        id={name}
-                                        key={name}
-                                        color="secondary"
-                                        variant="contained"
-                                        size='large'
-                                        sx={{mr: 1, fontSize: '20px'}}
-                                    >
-                                        {name.replace("-", " ")}
-                                    </Button>
-                                </Link>
+                                <Button
+                                    id={name}
+                                    key={name}
+                                    color="secondary"
+                                    variant="contained"
+                                    size='large'
+                                    sx={{mr: 1, fontSize: '20px'}}
+                                    onClick={handleSelectPage}
+                                >
+                                    {name.replace("-", " ")}
+                                </Button>
                             ))}
                         </ButtonGroup>
                     </Box>
@@ -61,8 +74,8 @@ const ToolBar = () => {
                         <MenuItem id='settings' sx={{fontSize: '20px'}} onClick={handleClose}>
                             SETTINGS
                         </MenuItem>
-                        <MenuItem id='login' sx={{fontSize: '20px'}} onClick={handleClose}>
-                            LOGIN
+                        <MenuItem id='logout' sx={{fontSize: '20px'}} onClick={handleClose}>
+                            LOGOUT
                         </MenuItem>
                     </Menu>
                 </Box>

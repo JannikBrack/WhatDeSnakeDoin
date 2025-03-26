@@ -1,8 +1,8 @@
 import serverUrl from "../lib/serverUrl";
 import React, {createContext, ReactNode, useContext, useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
-import {useQueryClient} from "@tanstack/react-query";
-
+import {matchPath} from "react-router-dom";
+import {authFetch} from "../ts/authFetch";
 export interface UserData {
     id: number;
     username: string;
@@ -28,9 +28,10 @@ export const LoginContextProvider: React.FC<LoginContextProviderProps> = ({child
 
     useEffect(() => {
         if (loggedInUser === null) {
+            console.log(window.location.pathname)
             login("", "", true).then((success: boolean) => {
                 !success && navigate("/login");
-                success && navigate("/");
+                success && matchPath(window.location.pathname, '/login') && navigate("/");
             })
         }
     }, [loggedInUser]);
@@ -71,7 +72,28 @@ export const LoginContextProvider: React.FC<LoginContextProviderProps> = ({child
         }
     }
 
-    function logout() {
+    async function logout() {
+        try {
+            const response: Response | null = await authFetch(`${serverUrl}logout/`, {
+                method: "GET",
+                headers: {"Content-Type": "application/response"},
+            });
+            if (response && response.ok){
+                triggerAlert.postMessage({
+                    message: "Logout successful",
+                    severity: "success",
+                    destination: "MainWindow",
+                })
+            }
+        } catch (error) {
+            triggerAlert.postMessage({
+                // @ts-ignore
+                message: error.message,
+                severity: "error",
+                destination: "MainWindow",
+            })
+            return [];
+        }
         setLoggedInUser(null);
     }
 
