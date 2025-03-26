@@ -1,29 +1,30 @@
-import React, {useState} from "react";
+import React, {useEffect} from "react";
 import {Box, Button, Grid, Paper, Typography} from "@mui/material";
 import colors from '../config/color.config.json';
 import DeleteIcon from '@mui/icons-material/Delete';
 import popupCenter from "../ts/popupCenter";
 import appUrl from "../lib/appUrl";
+import {Snake, SnakeContextType, useSnakeContext} from "../context/SnakeContext";
+import loginContext, {useLoginContext} from "../context/LoginContext";
 
 export default function SnakeViewerComponent() {
-    const [snakeList, setSnakeList] = useState<Snake[]>([]);
+    const snakeContext: SnakeContextType = useSnakeContext();
+    const loginContext = useLoginContext();
+
+    const snakeList: Snake[] = snakeContext.snake;
 
     const addSnake = () => {
 
     }
     const deleteSnake = (id: number) => {
-        const newSnakeList = snakeList.filter(snake => {
-            return snake.id !== id;
-        })
         //deleteSnake in backend and refetch
-        setSnakeList(newSnakeList);
     }
 
     const handleAddSnake = () => {
         addSnake();
     };
 
-    const handleDeleteSnake = (id: string) => {
+    const handleDeleteSnake = (id: number) => {
         const popup = popupCenter(`${appUrl}deletesnake`, `Do you really want to delete?`, window, 400, 200);
 
         if (popup) {
@@ -32,6 +33,7 @@ export default function SnakeViewerComponent() {
 
         const checkStorage = (event: StorageEvent) => {
             if (event.key === "deleteSnakeResult" && event.newValue === "yes") {
+                deleteSnake(id)
                 localStorage.removeItem("deleteSnakeResult");
                 window.removeEventListener("storage", checkStorage);
             }
@@ -40,7 +42,10 @@ export default function SnakeViewerComponent() {
         window.addEventListener("storage", checkStorage);
     };
 
-
+    useEffect(() => {
+        console.log(loginContext.loggedInUser)
+        console.log(snakeList);
+    }, [snakeList, loginContext.loggedInUser]);
     return (
         <Paper
             elevation={12}
@@ -85,7 +90,7 @@ export default function SnakeViewerComponent() {
                             }}
                         >
                             <Button
-                                onClick={() => handleDeleteSnake(snake.id.toString())}
+                                onClick={() => handleDeleteSnake(snake.id)}
                                 sx={{
                                     position: 'absolute',
                                     top: '10px',
