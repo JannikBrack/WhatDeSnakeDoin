@@ -5,7 +5,7 @@ import {useNavigate} from "react-router-dom";
 import {useQueryClient} from "@tanstack/react-query";
 import loginContext, {useLoginContext} from "../context/LoginContext";
 
-const ToolBar = () => {
+const ToolBarComponent = () => {
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const queryClient = useQueryClient();
     const open = Boolean(anchorEl);
@@ -85,4 +85,4 @@ const ToolBar = () => {
 };
 
 // ✅ Wrap in React.memo to prevent unnecessary re-renders
-export default React.memo(ToolBar);
+export default React.memo(ToolBarComponent);

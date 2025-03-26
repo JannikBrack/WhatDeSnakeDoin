@@ -18,7 +18,8 @@ export interface SnakeContextType {
     createSnake: (snake: Snake) => void;
     deleteSnake: (snakeID: number) => void;
     feedSnake: (snakeID: number, food: string) => void;
-    snake: Snake[];
+    snakes: Snake[];
+    isLoading: boolean;
 }
 
 interface SnakeContextProviderProps {
@@ -30,6 +31,7 @@ const createSnake = (snake: Snake) => {
 }
 
 const deleteSnake = (snakeID: number) => {
+    console.log(snakeID);
     return;
 }
 
@@ -42,31 +44,19 @@ const SnakeContext = createContext<SnakeContextType | null>(null);
 export const SnakeContextProvider: React.FC<SnakeContextProviderProps> = ({children}) => {
     const loginContext = useLoginContext();
 
-    const query = useQuery({
+    const { data: snakes = [], isLoading } = useQuery({
         queryKey: ["getSnake"],
         queryFn: async () => {
-            if (loginContext.loggedInUser) {
-                console.log("fetch");
-                const response = await authFetch(`http://localhost:3000/api/snake?user_id=${loginContext.loggedInUser.id}`, {
-                    method: "GET",
-                    headers: {"Content-Type": "application/json"},
-                });
-
-                if (response && response.ok) {
-                    const data = await response.json();
-                    return await data;
-                } else {
-                    return [];
-                }
-            }
-            else return [];
-        }
+            const response = await authFetch(`${serverUrl}/api/snake`, {
+                method: "GET",
+                headers: { "Content-Type": "application/json" },
+            });
+            return response && response.ok ? await response.json() : [];
+        },
     });
-
-    const snake: Snake[] = (query.data as Snake[]) || [];
-
+    if (isLoading) return null
     return (
-        <SnakeContext.Provider value={{createSnake, deleteSnake, feedSnake, snake}}>
+        <SnakeContext.Provider value={{createSnake, deleteSnake, feedSnake, snakes, isLoading}}>{children}
             {children}
         </SnakeContext.Provider>
     );

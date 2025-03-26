@@ -3,6 +3,7 @@ import React, {createContext, ReactNode, useContext, useEffect, useState} from "
 import {useNavigate} from "react-router-dom";
 import {matchPath} from "react-router-dom";
 import {authFetch} from "../ts/authFetch";
+import {useQueryClient} from "@tanstack/react-query";
 export interface UserData {
     id: number;
     username: string;
@@ -25,6 +26,7 @@ const triggerAlert = new BroadcastChannel("triggerAlert");
 export const LoginContextProvider: React.FC<LoginContextProviderProps> = ({children}) => {
     const [loggedInUser, setLoggedInUser] = useState<UserData | null>(null);
     const navigate = useNavigate();
+    const queryClient = useQueryClient();
 
     useEffect(() => {
         if (loggedInUser === null) {
