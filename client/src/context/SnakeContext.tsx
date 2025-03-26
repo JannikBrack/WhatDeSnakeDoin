@@ -1,14 +1,16 @@
 import React, {createContext, ReactNode, useContext} from "react";
 import {useQuery} from "@tanstack/react-query";
 import serverUrl from "../lib/serverUrl";
+import {useLoginContext} from "./LoginContext";
+import {authFetch} from "../ts/authFetch";
 
-export interface Snake{
-    id:number;
-    name:string;
-    species:string;
-    gender:string;
-    venomous:boolean;
-    image:string;
+export interface Snake {
+    id: number;
+    name: string;
+    species: string;
+    gender: string;
+    venomous: boolean;
+    image: string;
     feeding: any;
 }
 
@@ -38,20 +40,26 @@ const feedSnake = (snakeID: number, food: string) => {
 const SnakeContext = createContext<SnakeContextType | null>(null);
 
 export const SnakeContextProvider: React.FC<SnakeContextProviderProps> = ({children}) => {
+    const loginContext = useLoginContext();
+
     const query = useQuery({
         queryKey: ["getSnake"],
         queryFn: async () => {
-            const response = await fetch(`${serverUrl}api/get_snake`, {
-                method: "GET",
-                headers: { "Content-Type": "application/json" },
-            });
+            if (loginContext.loggedInUser) {
+                console.log("fetch");
+                const response = await authFetch(`http://localhost:3000/api/snake?user_id=${loginContext.loggedInUser.id}`, {
+                    method: "GET",
+                    headers: {"Content-Type": "application/json"},
+                });
 
-            if (response.ok) {
-                const data = await response.json();
-                return await data;
-            } else {
-                return [];
+                if (response && response.ok) {
+                    const data = await response.json();
+                    return await data;
+                } else {
+                    return [];
+                }
             }
+            else return [];
         }
     });
 
