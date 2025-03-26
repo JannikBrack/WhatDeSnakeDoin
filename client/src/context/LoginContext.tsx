@@ -9,7 +9,7 @@ export interface UserData {
 }
 
 export interface LoginContextType {
-    login: (username: string, password: string) => Promise<boolean>;
+    login: (username?: string, password?: string, loginViaCookies?: boolean) => Promise<boolean>;
     logout: () => void;
     loggedInUser: UserData | null;
 }
@@ -27,47 +27,46 @@ export const LoginContextProvider: React.FC<LoginContextProviderProps> = ({child
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (loggedInUser === null && window.location.pathname !== "/login") {
-            navigate("/login");
+        if (loggedInUser === null) {
+            login("", "", true).then((success: boolean) => {
+                !success && navigate("/login");
+                success && navigate("/");
+            })
         }
     }, [loggedInUser]);
 
-    async function login(username: string, password: string): Promise<boolean> {
+    async function login(username = "", password = "", loginViaCookies = false): Promise<boolean> {
         try {
-            const response = await fetch(`${serverUrl}api/user/authentication`, {
+            const response = await fetch(`${serverUrl}api/user/authentication/`, {
                 method: "POST",
                 headers: {"Content-Type": "application/json"},
-                body: JSON.stringify({username, password}),
+                body: JSON.stringify({username, password, loginViaCookies}),
+                credentials: "include",
             });
 
+            if (response.status === 401) {
+                console.warn("Session expired or invalid credentials.");
+                return false;
+            }
+
             if (!response.ok) {
-                console.error("Wrong username or password!");
-                triggerAlert.postMessage({
-                    message: `Login failed: Wrong username or password!`,
-                    severity: "error",
-                    destination: "MainWindow",
-                });
+                !loginViaCookies && console.error("Wrong username or password!");
                 return false;
             }
 
             const json = await response.json();
-            const userData: UserData = json.user;
-            setLoggedInUser(userData);
-
-            triggerAlert.postMessage({
-                message: "Login was successful!",
-                severity: "success",
-                destination: "MainWindow",
-            });
+            setLoggedInUser(json.user);
 
             return true;
         } catch (error) {
-            console.error("Login failed: ", error);
-            triggerAlert.postMessage({
-                message: `Login failed: ${error}`,
-                severity: "error",
-                destination: "MainWindow",
-            });
+            if (!loginViaCookies) {
+                console.error("Login failed: ", error);
+                triggerAlert.postMessage({
+                    message: `Login failed: ${error}`,
+                    severity: "error",
+                    destination: "MainWindow",
+                })
+            }
             return false;
         }
     }
