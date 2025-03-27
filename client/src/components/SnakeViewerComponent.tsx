@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import {Box, Button, Grid, Paper, Typography} from "@mui/material";
 import colors from '../config/color.config.json';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -6,12 +6,15 @@ import popupCenter from "../ts/popupCenter";
 import appUrl from "../lib/appUrl";
 import {Snake, SnakeContextType, useSnakeContext} from "../context/SnakeContext";
 import loginContext, {useLoginContext} from "../context/LoginContext";
+import DeleteSnakeFormComponent from "./DeleteSnakeFormComponent";
 
 export default function SnakeViewerComponent() {
     const snakeContext: SnakeContextType = useSnakeContext();
     const loginContext = useLoginContext();
+    const [openDeleteDialog, setOpenDeleteDialog] = useState<boolean>(false);
+    const [toDeleteSnake, setToDeleteSnake] = useState<number>(0);
 
-    const snakeList: Snake[] = snakeContext.snake;
+    const snakeList: Snake[] = snakeContext.snakes;
 
     const addSnake = () => {
 
@@ -25,28 +28,20 @@ export default function SnakeViewerComponent() {
     };
 
     const handleDeleteSnake = (id: number) => {
-        const popup = popupCenter(`${appUrl}deletesnake`, `Do you really want to delete?`, window, 400, 200);
-
-        if (popup) {
-            popup.focus();
-        }
-
-        const checkStorage = (event: StorageEvent) => {
-            if (event.key === "deleteSnakeResult" && event.newValue === "yes") {
-                deleteSnake(id)
-                localStorage.removeItem("deleteSnakeResult");
-                window.removeEventListener("storage", checkStorage);
-            }
-        };
-
-        window.addEventListener("storage", checkStorage);
+        setToDeleteSnake(id);
+        setOpenDeleteDialog(true);
     };
 
     useEffect(() => {
         console.log(loginContext.loggedInUser)
         console.log(snakeList);
     }, [snakeList, loginContext.loggedInUser]);
+
+    if (snakeContext.isLoading) return (<p>Snakes are loading...</p>);
+
     return (
+        <>
+            <DeleteSnakeFormComponent openDeleteDialog={openDeleteDialog} setOpenDeleteDialog={setOpenDeleteDialog} toDeleteSnake={toDeleteSnake}/>
         <Paper
             elevation={12}
             sx={{
@@ -119,5 +114,6 @@ export default function SnakeViewerComponent() {
                 ))}
             </Grid>
         </Paper>
+        </>
     );
 }

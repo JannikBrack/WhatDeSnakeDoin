@@ -1,15 +1,13 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React from 'react';
 import './App.css';
 import {Box, Typography} from '@mui/material';
-import ToolBar from "./components/ToolBar";
+import ToolBar from "./components/ToolBarComponent";
 import appUrl from "./lib/appUrl";
 import SnakeViewerComponent from "./components/SnakeViewerComponent";
 import {Route, Routes, useLocation} from "react-router-dom";
-import DeleteSnakeFormComponent from "./components/DeleteSnakeFormComponent";
 import LoginWindowComponent from "./components/LoginWindowComponent";
 import AlertComponent from "./components/AlertComponent";
-import {LoginContextType, useLoginContext} from "./context/LoginContext";
-import popupCenter from "./ts/popupCenter";
+
 
 function App() {
     const mainBoxConfig = {
@@ -26,8 +24,7 @@ function App() {
     }
     const location = useLocation();
 
-    const hideToolBar: string[] = ["/deletesnake", "/login"];
-    const loginContext: LoginContextType = useLoginContext();
+    const hideToolBar: string[] = ["/login"];
 
     return (
         <>
@@ -81,24 +78,7 @@ function App() {
                         </Box>
                     }/>
 
-
-                    {/*paths without Toolbar*/}
-                    <Route path="/deletesnake" element={
-                        <Box
-                            sx={{
-                                height: '100%',
-                                widht: '100%',
-                                display: 'flex',
-                                flexDirection: 'column',
-                                alignItems: 'center',
-                                justifyContent: 'space-evenly',
-                                backgroundColor: '#45304c',
-                            }}
-                        >
-                            <DeleteSnakeFormComponent/>
-                        </Box>
-                    }/>
-
+                    {/*Login*/}
                     <Route path="/login" element={
                         <Box
                             sx={{

@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import {Box, Button, Paper, TextField, Typography} from "@mui/material";
 import {LoginContextType, useLoginContext} from "../context/LoginContext";
 import {useNavigate} from "react-router-dom";
-import CookiePopup from "./CookiePopup";
+import CookiePopupComponent from "./CookiePopupComponent";
 
 export default function LoginWindowComponent() {
     const [username, setUsername] = useState<string>("");
@@ -14,7 +14,7 @@ export default function LoginWindowComponent() {
 
     return (
         <>
-            <CookiePopup/>
+            <CookiePopupComponent/>
             <Paper
                 elevation={6}
                 sx={{
