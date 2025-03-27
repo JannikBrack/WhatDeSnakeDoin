@@ -1,4 +1,4 @@
-import React, {StrictMode} from 'react'
+import React from 'react'
 import {createRoot} from 'react-dom/client'
 import App from './App'
 import './index.css'
@@ -55,18 +55,16 @@ const theme = createTheme({
 const queryClient = new QueryClient();
 
 createRoot(document.getElementById('root') as HTMLElement).render(
-    <StrictMode>
-        <ThemeProvider theme={theme}>
-            <QueryClientProvider client={queryClient}>
-                <BrowserRouter>
-                    <LoginContextProvider>
-                        <CssBaseline/>
-                        <SnakeContextProvider>
-                            <App/>
-                        </SnakeContextProvider>
-                    </LoginContextProvider>
-                </BrowserRouter>
-            </QueryClientProvider>
-        </ThemeProvider>
-    </StrictMode>,
+    <ThemeProvider theme={theme}>
+        <QueryClientProvider client={queryClient}>
+            <BrowserRouter>
+                <LoginContextProvider>
+                    <CssBaseline/>
+                    <SnakeContextProvider>
+                        <App/>
+                    </SnakeContextProvider>
+                </LoginContextProvider>
+            </BrowserRouter>
+        </QueryClientProvider>
+    </ThemeProvider>,
 )

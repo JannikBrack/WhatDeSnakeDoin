@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Box, Button, Paper, TextField, Typography} from "@mui/material";
 import {LoginContextType, useLoginContext} from "../context/LoginContext";
 import {useNavigate} from "react-router-dom";
@@ -11,6 +11,12 @@ export default function LoginWindowComponent() {
     const navigate = useNavigate();
 
     const loginContext: LoginContextType = useLoginContext();
+
+    useEffect(() => {
+        console.log("LoginWindowComponent mounted");
+        return () => console.log("LoginWindowComponent unmounted");
+    }, []);
+
 
     return (
         <>
