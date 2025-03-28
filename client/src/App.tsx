@@ -1,16 +1,15 @@
+import React from 'react';
 import './App.css';
 import {Box, Typography} from '@mui/material';
-import ToolBar from "./components/ToolBar";
+import ToolBar from "./components/ToolBarComponent";
 import appUrl from "./lib/appUrl";
-import {useState} from "react";
+import SnakeViewerComponent from "./components/SnakeViewerComponent";
+import {Route, Routes, useLocation} from "react-router-dom";
+import LoginWindowComponent from "./components/LoginWindowComponent";
+import AlertComponent from "./components/AlertComponent";
+
 
 function App() {
-    const [openTab, setOpenTab] = useState<string>('main-menu');
-
-    const openMainMenu = openTab === 'main-menu';
-    const openSnake = openTab === 'snake';
-    const openNutritionplant = openTab === 'nutrition-plan';
-
     const mainBoxConfig = {
         mt: 6,
         overflow: 'hidden',
@@ -23,6 +22,9 @@ function App() {
         width: '100%',
         height: '100%',
     }
+    const location = useLocation();
+
+    const hideToolBar: string[] = ["/login"];
 
     return (
         <>
@@ -35,44 +37,66 @@ function App() {
                     color: 'white',
                 }}
             >
-                {/* Toolbar */}
-                <Box>
-                    <ToolBar setOpenTab={setOpenTab}/>
-                </Box>
+                {!hideToolBar.includes(location.pathname) && <ToolBar/>}
+                <AlertComponent origin='MainWindow'/>
+                <Routes>
+                    <Route path="/" element={
+                        <>
+                            {/*MainMenu*/}
+                            <Box
+                                sx={{
+                                    ...mainBoxConfig,
+                                    backgroundImage: `url(${appUrl}images/MainMenu.png)`,
+                                }}
+                            >
+                                <Typography
+                                    variant="h4"
+                                    sx={{
+                                        position: 'absolute',
+                                        top: 600,
+                                        p: 2,
+                                        textAlign: 'center',
+                                        color: 'white',
+                                        borderRadius: 2,
+                                    }}
+                                >
+                                    WhatDeSnakeDoin?
+                                </Typography>
+                            </Box>
+                        </>
+                    }/>
 
-                {
-                    /*MainMenu*/
-                    openMainMenu && <Box
-                        sx={{
-                            ...mainBoxConfig,
-                            backgroundImage: `url(${appUrl}images/MainMenu.png)`,
-                        }}
-                    >
-                        <Typography
-                            variant="h4"
+                    {/*SnakeSide*/}
+                    <Route path="/snake" element={
+                        <Box
                             sx={{
-                                position: 'absolute',
-                                top: 600,
-                                p: 2,
-                                textAlign: 'center',
-                                color: 'white',
-                                borderRadius: 2,
+                                ...mainBoxConfig,
+                                backgroundImage: `url(${appUrl}images/Background.png)`,
                             }}
                         >
-                            WhatDeSnakeDoin?
-                        </Typography>
-                    </Box>
-                }
-                {
-                    openSnake && <Box
-                        sx={{
-                            ...mainBoxConfig,
-                            backgroundImage: `url(${appUrl}images/Background.png)`,
-                        }}
-                    >
-                        <Typography>Test</Typography>
-                    </Box>
-                }
+                            <SnakeViewerComponent/>
+                        </Box>
+                    }/>
+
+                    {/*Login*/}
+                    <Route path="/login" element={
+                        <Box
+                            sx={{
+                                height: '100%',
+                                width: '100%',
+                                display: 'flex',
+                                flexDirection: 'column',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                backgroundSize: 'cover',
+                                backgroundPosition: 'center',
+                                backgroundImage: `url(${appUrl}images/Background.png)`
+                            }}
+                        >
+                            <LoginWindowComponent/>
+                        </Box>
+                    }/>
+                </Routes>
             </Box>
         </>
     );

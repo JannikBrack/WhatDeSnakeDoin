@@ -1,60 +1,70 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
+import React from 'react'
+import {createRoot} from 'react-dom/client'
 import App from './App'
 import './index.css'
-import { ThemeProvider, CssBaseline } from '@mui/material';
-import { createTheme } from '@mui/material/styles';
+import {CssBaseline, ThemeProvider} from '@mui/material';
+import {createTheme} from '@mui/material/styles';
+import {BrowserRouter} from "react-router-dom";
+import SnakeContextProvider from "./context/SnakeContext";
+import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
+import LoginContextProvider from "./context/LoginContext";
 
 const theme = createTheme({
-  palette: {
-    primary: {
-      main: '#61446b',
-    },
-    secondary: {
-      main: '#6f4e7b',
-    },
-    background: {
-      default: '#45304c',
-      paper: '#72507d',
-    },
-    divider: 'rgba(113,112,112,0.12)',
-    text: {
-      primary: '#fff',
-      secondary: '#fff'
-    },
-  },
-  components: {
-    MuiTypography: {
-      styleOverrides: {
-        root: {
-          fontFamily: '"Whatdesnakedoin", sans-serif',
+    palette: {
+        primary: {
+            main: '#61446b',
         },
-      },
-    },
-    MuiButton: {
-      styleOverrides: {
-        root: {
-          fontFamily: '"Whatdesnakedoin", sans-serif',
+        secondary: {
+            main: '#6f4e7b',
         },
-      },
+        background: {
+            default: '#45304c',
+            paper: 'rgba(114,80,125,0.6)',
+        },
+        divider: 'rgba(113,112,112,0.12)',
+        text: {
+            primary: '#fff',
+            secondary: '#fff'
+        },
     },
-    MuiMenuItem: {
-      styleOverrides: {
-        root: {
-          fontFamily: '"Whatdesnakedoin", sans-serif',
+    components: {
+        MuiTypography: {
+            styleOverrides: {
+                root: {
+                    fontFamily: '"Whatdesnakedoin", sans-serif',
+                },
+            },
+        },
+        MuiButton: {
+            styleOverrides: {
+                root: {
+                    fontFamily: '"Whatdesnakedoin", sans-serif',
+                },
+            },
+        },
+        MuiMenuItem: {
+            styleOverrides: {
+                root: {
+                    fontFamily: '"Whatdesnakedoin", sans-serif',
+                }
+            }
         }
-      }
     }
-  }
 });
 
+const queryClient = new QueryClient();
 
-
-createRoot(document.getElementById('root')).render(
-  <StrictMode>
+createRoot(document.getElementById('root') as HTMLElement).render(
     <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <App />
-    </ThemeProvider>
-  </StrictMode>,
+        <QueryClientProvider client={queryClient}>
+            <BrowserRouter>
+                <LoginContextProvider>
+                    <CssBaseline/>
+                    <SnakeContextProvider>
+                        <App/>
+                    </SnakeContextProvider>
+                </LoginContextProvider>
+            </BrowserRouter>
+        </QueryClientProvider>
+    </ThemeProvider>,
 )

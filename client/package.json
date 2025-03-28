@@ -13,22 +13,24 @@
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
     "@material-ui/styles": "^4.11.5",
-    "@mui/icons-material": "^6.4.7",
-    "@mui/material": "^6.4.7",
+    "@mui/icons-material": "^7.0.0",
+    "@mui/material": "^7.0.0",
+    "@tanstack/react-query": "^5.69.3",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "react-router-dom": "^7.3.0"
+    "react-router-dom": "^7.4.0"
   },
   "devDependencies": {
-    "@eslint/js": "^9.22.0",
-    "@types/react": "^19.0.10",
+    "@eslint/js": "^9.23.0",
+    "@types/react": "^19.0.12",
     "@types/react-dom": "^19.0.4",
     "@vitejs/plugin-react": "^4.3.4",
-    "eslint": "^9.22.0",
+    "eslint": "^9.23.0",
     "eslint-plugin-react": "^7.37.4",
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.19",
     "globals": "^16.0.0",
-    "vite": "^6.2.1"
+    "typescript": "^5.8.2",
+    "vite": "^6.2.3"
   }
 }
