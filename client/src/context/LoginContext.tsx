@@ -1,9 +1,9 @@
 import serverUrl from "../lib/serverUrl";
 import React, {createContext, ReactNode, useContext, useEffect, useState} from "react";
-import {useNavigate} from "react-router-dom";
-import {matchPath} from "react-router-dom";
+import {matchPath, useNavigate} from "react-router-dom";
 import {authFetch} from "../ts/authFetch";
 import {useQueryClient} from "@tanstack/react-query";
+
 export interface UserData {
     id: number;
     username: string;
@@ -26,11 +26,9 @@ const triggerAlert = new BroadcastChannel("triggerAlert");
 export const LoginContextProvider: React.FC<LoginContextProviderProps> = ({children}) => {
     const [loggedInUser, setLoggedInUser] = useState<UserData | null>(null);
     const navigate = useNavigate();
-    const queryClient = useQueryClient();
 
     useEffect(() => {
         if (loggedInUser === null) {
-            console.log(window.location.pathname)
             login("", "", true).then((success: boolean) => {
                 !success && navigate("/login");
                 success && matchPath(window.location.pathname, '/login') && navigate("/");
@@ -80,7 +78,7 @@ export const LoginContextProvider: React.FC<LoginContextProviderProps> = ({child
                 method: "GET",
                 headers: {"Content-Type": "application/response"},
             });
-            if (response && response.ok){
+            if (response && response.ok) {
                 triggerAlert.postMessage({
                     message: "Logout successful",
                     severity: "success",
