@@ -5,6 +5,8 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import {Snake, SnakeContextType, useSnakeContext} from "../context/SnakeContext";
 import {useLoginContext} from "../context/LoginContext";
 import DeleteSnakeFormComponent from "./DeleteSnakeFormComponent";
+import serverUrl from "../lib/serverUrl";
+import SettingsIcon from "@mui/icons-material/Settings";
 
 export default function SnakeViewerComponent() {
     const snakeContext: SnakeContextType = useSnakeContext();
@@ -69,14 +71,18 @@ export default function SnakeViewerComponent() {
                     Add New Snake
                 </Button>
 
-                <Grid container spacing={3}>
+                <Grid
+                    container
+                    spacing={4}
+                    sx={{
+                        width: '100%',
+                    }}
+                >
                     {snakeList.map((snake) => (
                         <Grid
                             key={snake.id}
                             size={{
-                                xs: 12,
-                                sm: 6,
-                                md: 4
+                                xs: 2, sm: 4, md: 3
                             }}>
                             <Paper
                                 sx={{
@@ -86,6 +92,7 @@ export default function SnakeViewerComponent() {
                                     padding: '20px',
                                     height: 'auto',
                                     gap: '20px',
+                                    width: '100%',
                                     position: 'relative'
                                 }}
                             >
@@ -99,19 +106,36 @@ export default function SnakeViewerComponent() {
                                         padding: '5px'
                                     }}
                                 >
-                                    <DeleteIcon sx={{color: colors.deleteSnakeColor}}/>
+                                    <DeleteIcon sx={{ color: colors.deleteSnakeColor }} />
                                 </Button>
-                                <Box sx={{display: 'flex', justifyContent: 'center'}}>
-                                    {snake.image ?
-                                        <img width={100} height={100} src={snake.image} alt={snake.name}/> :
-                                        <img width={100} height={100} src={`/images/Icon.png`}
-                                             alt="Default Snake Icon"/>}
+
+                                {/* Settings Icon on the left */}
+                                <Button
+                                    onClick={() => console.log("Settings clicked for snake:", snake.id)} // Placeholder for the settings action
+                                    sx={{
+                                        position: 'absolute',
+                                        top: '10px',
+                                        left: '10px',
+                                        minWidth: 'unset',
+                                        padding: '5px',
+                                        color: 'white'
+                                    }}
+                                >
+                                    <SettingsIcon />
+                                </Button>
+
+                                <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+                                    {snake.image ? (
+                                        <img width={100} height={100} src={serverUrl + snake.image} alt={snake.name} />
+                                    ) : (
+                                        <img width={100} height={100} src={`${serverUrl}images/Icon.png`} alt="Default Snake Icon" />
+                                    )}
                                 </Box>
-                                <Box sx={{textAlign: 'center'}}>
+                                <Box sx={{ textAlign: 'center' }}>
                                     <Typography variant="h6">Name: {snake.name}</Typography>
                                     <Typography variant="h6">Species: {snake.species}</Typography>
                                 </Box>
-                                <Box sx={{textAlign: 'center'}}>
+                                <Box sx={{ textAlign: 'center' }}>
                                     <Typography variant="h6">Gender: {snake.gender}</Typography>
                                     <Typography variant="h6">Venomous: {snake.venomous ? "Yes" : "No"}</Typography>
                                 </Box>
