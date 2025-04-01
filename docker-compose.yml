@@ -39,3 +39,10 @@ services:
     ports:
       - "3000:8000"
       - "3001:3001"
+  client:
+    restart: always
+    network_mode: host
+    build: ./client
+    ports:
+      - "3002:80"
+      - "3003:443"
