@@ -22,3 +22,14 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+#Backendfiles
+backend/page/migrations
+**/__pycache__/
+
+#ssl files
+client/ssl
+
+#env
+.env
+
