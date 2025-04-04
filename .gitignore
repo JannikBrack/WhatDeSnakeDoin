@@ -27,6 +27,9 @@ dist-ssr
 backend/page/migrations
 **/__pycache__/
 
+#client files
+client/src/lib/*
+
 #ssl files
 client/ssl
 

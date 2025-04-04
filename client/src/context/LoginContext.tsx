@@ -38,7 +38,7 @@ export const LoginContextProvider: React.FC<LoginContextProviderProps> = ({child
 
     async function login(username = "", password = "", loginViaCookies = false): Promise<boolean> {
         try {
-            const response = await fetch(`${serverUrl}api/user/authentication/`, {
+            const response = await fetch(`/api/user/authentication/`, {
                 method: "POST",
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify({username, password, loginViaCookies}),
